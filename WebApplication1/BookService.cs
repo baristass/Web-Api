@@ -12,10 +12,6 @@ namespace WebApplication1
         {
             _context = context;
         }
-
-       
-
-
         public void AddBook(Book book)
         {
             _context.Books.Add(book);
@@ -30,14 +26,8 @@ namespace WebApplication1
 
         public Book GetBookById(int id)
         {
-            var book= _context.Books.SingleOrDefault(x => x.Id == id);
-            return book;
-            return null;
-
-
-
-
-
+            var book = _context.Books.SingleOrDefault(x => x.Id == id);
+            if (book != null) return book; else { return null; }
         }
 
         public List<Book> GetAllBooks()
