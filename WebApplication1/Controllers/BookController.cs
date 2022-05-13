@@ -51,17 +51,25 @@ namespace WebApplication1.AddControllers
 
 
         [HttpGet]
-        public List<Book> GetBooks()
+        public IActionResult GetBooks()
         {
             var bookList = BookList.OrderBy(x => x.Id).ToList<Book>();
-            return bookList;
+
+             return Ok (bookList);
         }
 
+
         [HttpGet("{id}")]
-        public Book GetById(int id)
+        public IActionResult GetById(int id)
         {
             var book = BookList.Where(book => book.Id == id).SingleOrDefault();
-            return book ;
+            if (book == null)
+            {
+                return NotFound();
+            }
+          
+            return Ok(book);
+
         }
 
         //[HttpGet]
@@ -86,7 +94,8 @@ namespace WebApplication1.AddControllers
                 book.PageCount = newBook.PageCount;
                 book.PublishDate = DateTime.Now;
                 BookList.Add(book);
-                return Ok(book);
+                string url = $"https://{Request.Host}/book/getbyid/{book.Id}";
+                return Created(url,book);
 
             }
             return BadRequest();

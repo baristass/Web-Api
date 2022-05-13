@@ -22,6 +22,7 @@ namespace WebApplication1
         {
             var entity = _context.Books.FirstOrDefault(x => x.Id == id);
             _context.Books.Remove(entity);
+            _context.SaveChanges();
         }
 
         public Book GetBookById(int id)
