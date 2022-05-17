@@ -1,0 +1,20 @@
+﻿.title {
+    color: deepskyblue !important;
+}
+
+.swagger-section {
+    background-color: #fff !important;
+}
+
+.swagger-ui {
+    background-color: black !important;
+}
+
+    .swagger-ui .topbar {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 600px;
+        margin: 0;
+        color: #161212 !important;
+    }

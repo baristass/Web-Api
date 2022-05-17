@@ -30,14 +30,14 @@ namespace WebApplication1
         {
             services.AddMvc();
             services.AddEntityFrameworkNpgsql().AddDbContext<BookStoreDbContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
-            
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication1", Version = "v1" });
             });
-            services.AddScoped<IBookService,BookService>();
+            services.AddScoped<IBookService, BookService>();
             services.AddDbContext<BookStoreDbContext>(options => options.UseInMemoryDatabase(databaseName: "BookStoreDb"));
         }
 
@@ -47,13 +47,21 @@ namespace WebApplication1
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseStaticFiles();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication1 v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication1 v1");
+                    c.InjectStylesheet("/css/swagger-custom.css");
+
+                });
             }
+
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
 
             app.UseAuthorization();
 

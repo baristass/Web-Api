@@ -43,6 +43,9 @@ namespace WebApplication1.Controllers
                 book.GenreId = newbook.GenreId;
                 book.PublishDate = newbook.PublishDate;
                 book.PageCount = newbook.PageCount;
+                if (Response.StatusCode == 400)
+                    return new BadRequestResult(); 
+
                 _bookService.AddBook(book);
                 string url = $"https://{Request.Host}/PostgreTest/{book.Id}";
 
