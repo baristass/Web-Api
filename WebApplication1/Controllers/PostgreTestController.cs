@@ -5,19 +5,23 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Extensions;
+using WebApplication1.Abstract;
+using Microsoft.AspNetCore.Authorization;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class PostgreTestController : PostgreTestControllerBase
     {
         private readonly IBookService _bookService;
-
-        public PostgreTestController(IBookService bookService)
+        private readonly IJWTManagerRepository _jwtManager;
+        public PostgreTestController(IBookService bookService, IJWTManagerRepository jwtManager)
         {
             _bookService = bookService;
+            _jwtManager = jwtManager;
         }
         [HttpGet]
         public IEnumerable<Book> GetAllBooks()
@@ -72,6 +76,21 @@ namespace WebApplication1.Controllers
             _bookService.DeleteBook(id);
             return new NoContentResult();
 
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("authenticate")]
+        public IActionResult Authenticate(Users usersdata)
+        {
+            var token = _jwtManager.Authenticate(usersdata);
+
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(token);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace WebApplication1.AddControllers
         {
             var bookList = BookList.OrderBy(x => x.Id).ToList<Book>();
 
-             return Ok (bookList);
+            return Ok(bookList);
         }
 
 
@@ -67,7 +67,7 @@ namespace WebApplication1.AddControllers
             {
                 return NotFound();
             }
-          
+
             return Ok(book);
 
         }
@@ -95,7 +95,7 @@ namespace WebApplication1.AddControllers
                 book.PublishDate = DateTime.Now;
                 BookList.Add(book);
                 string url = $"https://{Request.Host}/book/getbyid/{book.Id}";
-                return Created(url,book);
+                return Created(url, book);
 
             }
             return BadRequest();
